@@ -24,8 +24,6 @@ class map_db {
     echo "Database connection successful";
   }
 
-
-
 }
 
 class map {
@@ -33,7 +31,7 @@ class map {
  var $db;
 
  function __construct() {
-     $this->db = new map_db($db_servername,$db_username,$db_password)
+     $this->db = new map_db($db_servername,$db_username,$db_password);
  }
 
  function create_poi($name,$type,$lat,$long) {
