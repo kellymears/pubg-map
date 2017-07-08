@@ -13,6 +13,9 @@
 
 </head>
 
+<?php require "server.php";
+      $squad_pubg = new map($db_servername,$db_username,$db_password,$db_name); ?>
+
 <body>
 
   <div id="map"></div>
@@ -43,7 +46,17 @@
     // tell leaflet that the map is exactly as big as the image
     map.setMaxBounds(bounds);
 
+    /* approx 80 units per tile */
+    //var marker = L.marker([-215, 115]).addTo(map);
+
+    <?php $pois = $squad_pubg->display_pois();
+          foreach($pois as $poi) {
+            echo "var marker_". $poi['id'] ." = L.marker([". $poi['lat'] .", ". $poi['long'] ."]).addTo(map);\n";
+          } ?>
+
   </script>
+
+  <?php print_r($squad_pubg->db->log); ?>
 
 </body>
 </html>
