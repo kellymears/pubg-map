@@ -4,10 +4,10 @@ require "config.php";
 
 class map_db {
 
-  var $servername;
-  var $username;
-  var $password;
-  var $conn;
+  private $servername;
+  private $username;
+  private $password;
+  private $conn;
 
   function __construct($db_servername,$db_username,$db_password) {
     $this->servername = $db_servername;
@@ -18,9 +18,6 @@ class map_db {
 
   function connect_to_db() {
     $this->conn = new mysqli($this->servername,$this->username,$this->password);
-    if ($this->conn->connect_error) {
-      die("Connection failed: " . $this->conn->connect_error);
-    }
     echo "Database connection successful";
   }
 
@@ -28,22 +25,29 @@ class map_db {
 
 class map {
 
- var $db;
+  private $db;
 
-function call_query($sql, $msg, $fetch=False) {
-     if($this->db->conn->query($sql) === TRUE) {
-       echo $msg;
+  public $log;
+  public $pois;
 
-       if $fetch {
-         return $this->db->conn->query($sql)->fetch_assoc();
-       }
-     } else {
-       echo "Error: " . $sql . "<br>" . $this->db->conn->error;
-     }
-}
+  function __construct() {
+      $this->db = new map_db($db_servername,$db_username,$db_password);
+      if ($this->db->conn->connect_error) {
+        $this->log[] = "Connection failed: " . $this->db->conn->connect_error;
+      } else {
+        $this->log[] = "Database connection successful";
+      }
+  }
 
- function __construct() {
-     $this->db = new map_db($db_servername,$db_username,$db_password);
+  function call_query($sql, $msg, $fetch=False) {
+    if($this->db->conn->query($sql) === TRUE) {
+      $this->log[] = $msg;
+      if $fetch {
+       return $this->db->conn->query($sql)->fetch_assoc();
+      } else {
+       $this->log[] = "Error: " . $sql . "<br>" . $this->db->conn->error;
+      }
+   }
  }
 
  function create_poi($name,$type,$lat,$long) {

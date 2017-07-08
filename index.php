@@ -1,3 +1,8 @@
+<?php require "server.php";
+      $squad_pubg = new map();
+      $squad_pubg->read_pois();
+?>
+
 <html>
 <head>
 
