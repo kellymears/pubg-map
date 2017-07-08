@@ -31,13 +31,10 @@ class map_db {
 
   function call_query($sql, $msg) {
     if($this->conn->query($sql)) {
-
-      $result = $this->conn->query($sql)->fetch_assoc();
+      $result = $this->conn->query($sql);
       $this->log[] = $msg;
       $this->log[] = $result;
-
       return $result;
-
     } else {
      $this->log[] = "Error: " . $sql . " resulted in " . $this->db->conn->error;
     }
@@ -61,7 +58,7 @@ class map {
 
  function read_poi($id) {
    $sql = "SELECT * FROM `map_pois` WHERE `id`='".$id."'";
-   $result = $this->db->call_query($sql, "Reading POI successful");
+   return $result = $this->db->call_query($sql, "Reading POI successful");
    // TODO something with the result
    // while ($row = $result->fetch_assoc())
  }
@@ -80,10 +77,14 @@ class map {
  function display_pois() {
    $sql = "SELECT * FROM `map_pois`";
    $result = $this->db->call_query($sql, "Display POI query successful");
-   /* can't get this to work?
-   while($row = $result->fetch_row()){
-     echo $row[0];
-   } */
+   while ($row = $result->fetch_assoc()) {
+     $result_array[$row['id']]['id'] = $row['id'];
+     $result_array[$row['id']]['name'] = $row['name'];
+     $result_array[$row['id']]['type'] = $row['type'];
+     $result_array[$row['id']]['lat'] = $row['lat'];
+     $result_array[$row['id']]['long'] = $row['long'];
+   }
+   return $result_array;
  }
 
 }

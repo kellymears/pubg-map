@@ -14,10 +14,7 @@
 </head>
 
 <?php require "server.php";
-      $squad_pubg = new map($db_servername,$db_username,$db_password,$db_name);
-      $squad_pubg->read_poi(1);
-      // print_r($squad_pubg->db->log);
-?>
+      $squad_pubg = new map($db_servername,$db_username,$db_password,$db_name); ?>
 
 <body>
 
@@ -52,10 +49,14 @@
     /* approx 80 units per tile */
     //var marker = L.marker([-215, 115]).addTo(map);
 
-    <?php $squad_pubg->update_poi(1,"Spot #2",0,-420,220); ?>
-    <?php $squad_pubg->display_pois(); ?>
+    <?php $pois = $squad_pubg->display_pois();
+          foreach($pois as $poi) {
+            echo "var marker_". $poi['id'] ." = L.marker([". $poi['lat'] .", ". $poi['long'] ."]).addTo(map);\n";
+          } ?>
 
   </script>
+
+  <?php print_r($squad_pubg->db->log); ?>
 
 </body>
 </html>
