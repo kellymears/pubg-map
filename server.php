@@ -63,7 +63,7 @@ function call_query($sql, $msg, $fetch=False) {
  }
 
  function update_poi($id,$name,$type,$lat,$long) {
-   $sql = "UPDATE `map_pois` SET `name`='".$nane."', `type`='".$type."',
+   $sql = "UPDATE `map_pois` SET `name`='".$name."', `type`='".$type."',
            `lat`='".$lat."', `long`='".$long."' WHERE `id`='".$id."'";
    $this->call_query($sql, "Record updated successfully");
  }
