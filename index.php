@@ -1,8 +1,3 @@
-<?php require "server.php";
-      $squad_pubg = new map();
-      $squad_pubg->read_pois();
-?>
-
 <html>
 <head>
 
@@ -17,6 +12,12 @@
   </style>
 
 </head>
+
+<?php require "server.php";
+      $squad_pubg = new map($db_servername,$db_username,$db_password,$db_name);
+      $squad_pubg->read_poi(1);
+      print_r($squad_pubg->db->log);
+?>
 
 <body>
 
@@ -47,6 +48,9 @@
 
     // tell leaflet that the map is exactly as big as the image
     map.setMaxBounds(bounds);
+
+    /* approx 80 units per tile */
+    var marker = L.marker([-215, 115]).addTo(map);
 
   </script>
 

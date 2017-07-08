@@ -1,7 +1,8 @@
 <?php
 
+$db_name = 'pubg_poi';
 $db_servername = 'localhost';
-$db_username = 'username';
-$db_password = 'password';
+$db_username = 'root';
+$db_password = 'root';
 
 ?>
