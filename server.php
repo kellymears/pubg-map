@@ -31,7 +31,7 @@ class map_db {
 
   function call_query($sql, $msg) {
     if($this->conn->query($sql)) {
-      
+
       $result = $this->conn->query($sql)->fetch_assoc();
       $this->log[] = $msg;
       $this->log[] = $result;
@@ -48,7 +48,6 @@ class map_db {
 class map {
 
   public $db;
-  public $pois;
 
   function __construct($db_servername,$db_username,$db_password,$db_name) {
     $this->db = new map_db($db_servername,$db_username,$db_password,$db_name);
@@ -76,6 +75,15 @@ class map {
  function destroy_poi($id) {
    $sql = "DELETE FROM `map_pois` WHERE `id`='".$id."'";
    $result = $this->db->call_query($sql, "POI record deleted successfully");
+ }
+
+ function display_pois() {
+   $sql = "SELECT * FROM `map_pois`";
+   $result = $this->db->call_query($sql, "Display POI query successful");
+   /* can't get this to work?
+   while($row = $result->fetch_row()){
+     echo $row[0];
+   } */
  }
 
 }
