@@ -2,40 +2,10 @@
 <head>
 
   <link rel="stylesheet" href="dist/leaflet/leaflet.css"/>
+  <link rel="stylesheet" href="app.css" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="dist/leaflet/leaflet.js"></script>
-
-  <style>
-  #map {
-    min-height:100%;
-    min-width:100%;
-  }
-
-  .info {
-    padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif;
-    background: white;
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
-}
-.info h4 {
-    margin: 0 0 5px;
-    color: #777;
-}
-
-.legend {
-    line-height: 18px;
-    color: #555;
-}
-.legend i {
-    width: 18px;
-    height: 18px;
-    float: left;
-    margin-right: 8px;
-    opacity: 0.7;
-}
-
-  </style>
 
 </head>
 
@@ -47,6 +17,8 @@
   <div id="map"></div>
 
   <script>
+
+  $( document ).ready(function() {
 
     var map = L.map('map', {
       minZoom: 1,
@@ -101,18 +73,23 @@
 
     info.addTo(map);
 
-    <?php
-
-        /* display POIs */
-
-        $pois = $squad_pubg->display_pois();
-
-        foreach($pois as $poi) {
-          echo "var marker_". $poi['id'] ." = L.marker([". $poi['lat'] .", ". $poi['long'] ."]).addTo(map);\n
-                marker_". $poi['id'] .".bindPopup('<b>". $poi['name'] ."</b>').openPopup();";
-        }
-
-    ?>
+    $.ajax({
+      method: "GET",
+      url: "requests.php",
+      data: { request: "readAll", map: "<?php echo $_GET['map']; ?>" }
+    })
+      .done(function( data ) {
+        var json_data = $.parseJSON(data);
+        console.log(json_data);
+        $.each(json_data, function(key,value) {
+          console.log(value.name);
+          console.log(parseFloat(value.lat));
+          console.log(parseFloat(value.long));
+          document["marker" + value.id] = L.marker([parseFloat(value.lat), parseFloat(value.long)]).addTo(map);
+          document["marker" + value.id].bindPopup('<b>' + value.name + '</b>').openPopup();
+        });
+      });
+    });
 
   </script>
 

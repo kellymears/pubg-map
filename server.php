@@ -54,7 +54,8 @@ class map {
 
  function create_poi($name,$type,$lat,$long,$map) {
    $sql = "INSERT INTO `map_pois` (`name`,`type`,`lat`,`long`,`mapname`) VALUES ('$name',$type,$lat,$long,'$map')";
-   $this->db->call_query($sql, "New record created successfully");
+   $result = $this->db->call_query($sql, "New record created successfully");
+   return $result;
  }
 
  function read_poi($id) {
