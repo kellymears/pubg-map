@@ -78,7 +78,7 @@
     function onMapClick(e) {
         popup
             .setLatLng(e.latlng)
-            .setContent("You clicked the map at " + e.latlng.toString() + "<br><a href='requests.php?request=add&name=Test&type=1&lat="+ e.latlng.lat +"&long="+ e.latlng.lng +"&map=<?php echo $_GET['map']; ?>'>Test</a>")
+            .setContent("You clicked the map at " + e.latlng.toString() + "<br><a href='requests.php?request=create&name=Test&type=1&lat="+ e.latlng.lat +"&long="+ e.latlng.lng +"&map=<?php echo $_GET['map']; ?>'>Test</a>")
             .openOn(map);
     }
 
