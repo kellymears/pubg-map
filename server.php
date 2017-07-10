@@ -36,7 +36,7 @@ class map_db {
       $this->log[] = $result;
       return $result;
     } else {
-     $this->log[] = "Error: " . $sql . " resulted in " . $this->db->conn->error;
+     $this->log[] = "Error: " . $sql . " resulted in " . $this->conn->error;
     }
   }
 
@@ -45,14 +45,15 @@ class map_db {
 class map {
 
   public $db;
+  public $map;
 
-  function __construct($db_servername,$db_username,$db_password,$db_name) {
+  function __construct($db_servername,$db_username,$db_password,$db_name,$mapname) {
     $this->db = new map_db($db_servername,$db_username,$db_password,$db_name);
+    $this->map = $mapname;
   }
 
- function create_poi($name,$type,$lat,$long) {
-   $sql = "INSERT INTO `map_pois` (name, type, lat, long)
-          VALUES ($name, $type, $lat, $long)";
+ function create_poi($name,$type,$lat,$long,$map) {
+   $sql = "INSERT INTO `map_pois` (`name`,`type`,`lat`,`long`,`mapname`) VALUES ('$name',$type,$lat,$long,'$map')";
    $this->db->call_query($sql, "New record created successfully");
  }
 
@@ -65,7 +66,8 @@ class map {
 
  function update_poi($id,$name,$type,$lat,$long) {
    $sql = "UPDATE `map_pois` SET `name`='".$name."', `type`='".$type."',
-           `lat`='".$lat."', `long`='".$long."' WHERE `id`='".$id."'";
+           `lat`='".$lat."', `long`='".$long."', `mapname`='".$this->map."'
+            WHERE `id`='".$id."'";
    $result = $this->db->call_query($sql, "Record updated successfully");
  }
 
@@ -75,7 +77,7 @@ class map {
  }
 
  function display_pois() {
-   $sql = "SELECT * FROM `map_pois`";
+   $sql = "SELECT * FROM `map_pois` WHERE `mapname`='".$this->map."'";
    $result = $this->db->call_query($sql, "Display POI query successful");
    while ($row = $result->fetch_assoc()) {
      $result_array[$row['id']]['id'] = $row['id'];
