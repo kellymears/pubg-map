@@ -9,14 +9,21 @@
 
   <!-- Bootstrap -->
   <link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+  <!-- Foundation Icons -->
   <link rel="stylesheet" href="dist/foundation/icons/foundation-icons.css">
+
+  <!-- Leaflet -->
   <link rel="stylesheet" href="dist/leaflet/leaflet.css"/>
+
+  <!-- Our stylesheet -->
   <link rel="stylesheet" href="app.css" />
 
 </head>
 
 <body>
 
+  <!-- top bar -->
   <div class="navbar" style="margin-bottom:0em;">
   <div class="navbar-inner">
     <a class="brand" href="#">Mapster</a>
@@ -28,12 +35,16 @@
   </div>
 </div>
 
-
+  <!-- map -->
   <div id="map"></div>
 
+  <!-- bootstrap js -->
   <script src="dist/bootstrap/js/bootstrap.js"></script>
+
+  <!-- jquery -->
   <script src="dist/foundation/js/vendor/jquery.js"></script>
-  <script src="dist/foundation/js/vendor/what-input.js"></script>
+
+  <!-- leaflet js -->
   <script src="dist/leaflet/leaflet.js"></script>
 
   <script>
@@ -155,9 +166,7 @@
       }
 
       map.on('click', onMapClick);
-
-      // requests.php?request=create&name=Test&type=1&lat="+ e.latlng.lat +"&long="+ e.latlng.lng +"&map=
-
+      
     });
 
   </script>
