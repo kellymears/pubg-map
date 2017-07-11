@@ -1,26 +1,40 @@
 <html>
 <head>
 
-  <link rel="stylesheet" href="dist/leaflet/leaflet.css"/>
-  <script src="dist/leaflet/leaflet.js"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapster</title>
 
-  <style>
-  #map {
-    min-height:100%;
-    min-width:100%;
-  }
-  </style>
+  <link rel="stylesheet" href="dist/foundation/css/foundation.css">
+  <link rel="stylesheet" href="dist/foundation/icons/foundation-icons.css">
+  <link rel="stylesheet" href="dist/leaflet/leaflet.css"/>
+  <link rel="stylesheet" href="app.css" />
 
 </head>
 
-<?php require "server.php";
-      $squad_pubg = new map($db_servername,$db_username,$db_password,$db_name); ?>
-
 <body>
+
+  <ul class="vertical medium-horizontal menu" style="background:black;">
+  <li>
+  <li><h5 style="position:relative;top:.2em; padding-left:.5em; color:white;"><i class="fi-map"></i> Mapster</h5></li>
+  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>One</span></a></li>
+  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Two</span></a></li>
+  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Three</span></a></li>
+  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Four</span></a></li>
+  </ul>
 
   <div id="map"></div>
 
+  <script src="dist/foundation/js/vendor/jquery.js"></script>
+  <script src="dist/foundation/js/vendor/what-input.js"></script>
+  <script src="dist/foundation/js/vendor/foundation.js"></script>
+  <script src="dist/leaflet/leaflet.js"></script>
+
   <script>
+
+  $( document ).ready(function() {
+
     var map = L.map('map', {
       minZoom: 1,
       maxZoom: 4,
@@ -46,17 +60,74 @@
     // tell leaflet that the map is exactly as big as the image
     map.setMaxBounds(bounds);
 
-    /* approx 80 units per tile */
-    //var marker = L.marker([-215, 115]).addTo(map);
+    /* map info */
 
-    <?php $pois = $squad_pubg->display_pois();
-          foreach($pois as $poi) {
-            echo "var marker_". $poi['id'] ." = L.marker([". $poi['lat'] .", ". $poi['long'] ."]).addTo(map);\n";
-          } ?>
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this.update();
+        return this._div;
+    };
+
+    info.update = function (props) {
+        this._div.innerHTML = '<h5>Player Unknown\'s Battlegrounds</h5><p><b>Viewing map:</b> <?php echo $_GET['map']; ?></p>';
+        if(props) {
+          this._div.innerHTML += "<p>Map clicked at "+ props.latlng +"</p>";
+        }
+    };
+
+    info.showNewForm = function (props) {
+      console.log(props);
+      this._div.innerHTML += "<p>Adding point at "+ props.latlng +"</p>";
+    };
+
+    info.addTo(map);
+
+    /* display markers */
+
+    $.ajax({
+      method: "GET",
+      url: "requests.php",
+      data: { request: "readAll", map: "<?php echo $_GET['map']; ?>" }
+    })
+      .done(function( data ) {
+        var json_data = $.parseJSON(data);
+        $.each(json_data, function(key,value) {
+          document["marker" + value.id] = L.marker([parseFloat(value.lat), parseFloat(value.long)]).addTo(map);
+          document["marker" + value.id].bindPopup('<form><b>' + value.name + '</b>').openPopup();
+        });
+      });
+
+      /* on click interactivity */
+
+      var popup = L.popup();
+
+      function onMapClick(e) {
+          popup
+              .setLatLng(e.latlng)
+              .setContent("<a id='addNew' href='#'>Add Marker</a>")
+              .openOn(map);
+         info.update(e);
+         console.log('map clicked');
+         
+         $('#addNew').click(function(e){
+           info.showNewForm(e);
+         });
+      }
+
+      function onMapAdd(coord) {
+        console.log(coord);
+        info.showNewForm(coord);
+      }
+
+      map.on('click', onMapClick);
+
+      // requests.php?request=create&name=Test&type=1&lat="+ e.latlng.lat +"&long="+ e.latlng.lng +"&map=<?php echo $_GET['map']; ?>
+
+    });
 
   </script>
-
-  <?php print_r($squad_pubg->db->log); ?>
 
 </body>
 </html>
