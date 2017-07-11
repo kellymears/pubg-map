@@ -123,9 +123,12 @@
               .openOn(map);
          info.update(e);
          console.log('map clicked');
-         
+
+         // Assign the javascript obj to another variable to not get overriden
+         var mapClickObj = e;
+
          $('#addNew').click(function(e){
-           info.showNewForm(e);
+           info.showNewForm(mapClickObj);
          });
       }
 
@@ -136,7 +139,7 @@
 
       map.on('click', onMapClick);
 
-      // requests.php?request=create&name=Test&type=1&lat="+ e.latlng.lat +"&long="+ e.latlng.lng +"&map=<?php echo $_GET['map']; ?>
+      // requests.php?request=create&name=Test&type=1&lat="+ e.latlng.lat +"&long="+ e.latlng.lng +"&map=
 
     });
 
