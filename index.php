@@ -5,6 +5,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapster</title>
+  <link rel="icon" type="image/png" href="images/pubg.png"/>
 
   <link rel="stylesheet" href="dist/foundation/css/foundation.css">
   <link rel="stylesheet" href="dist/foundation/icons/foundation-icons.css">
