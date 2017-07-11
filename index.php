@@ -71,7 +71,15 @@
     };
 
     info.update = function (props) {
-        this._div.innerHTML = '<h4>Player Unknown\'s Battlegrounds</h4> <b>Viewing map:</b> <?php echo $_GET['map']; ?>';
+        this._div.innerHTML = '<h5>Player Unknown\'s Battlegrounds</h5><p><b>Viewing map:</b> <?php echo $_GET['map']; ?></p>';
+        if(props) {
+          this._div.innerHTML += "<p>Map clicked at "+ props.latlng +"</p>";
+        }
+    };
+
+    info.showNewForm = function (props) {
+      console.log(props);
+      this._div.innerHTML += "<p>Adding point at "+ props.latlng +"</p>";
     };
 
     info.addTo(map);
@@ -87,7 +95,7 @@
         var json_data = $.parseJSON(data);
         $.each(json_data, function(key,value) {
           document["marker" + value.id] = L.marker([parseFloat(value.lat), parseFloat(value.long)]).addTo(map);
-          document["marker" + value.id].bindPopup('<b>' + value.name + '</b>').openPopup();
+          document["marker" + value.id].bindPopup('<form><b>' + value.name + '</b>').openPopup();
         });
       });
 
@@ -98,11 +106,24 @@
       function onMapClick(e) {
           popup
               .setLatLng(e.latlng)
-              .setContent("You clicked the map at " + e.latlng.toString() + "<br><a href='requests.php?request=create&name=Test&type=1&lat="+ e.latlng.lat +"&long="+ e.latlng.lng +"&map=<?php echo $_GET['map']; ?>'>Test</a>")
+              .setContent("<a id='addNew' href='#'>Add Marker</a>")
               .openOn(map);
+         info.update(e);
+         console.log('map clicked');
+         
+         $('#addNew').click(function(e){
+           info.showNewForm(e);
+         });
+      }
+
+      function onMapAdd(coord) {
+        console.log(coord);
+        info.showNewForm(coord);
       }
 
       map.on('click', onMapClick);
+
+      // requests.php?request=create&name=Test&type=1&lat="+ e.latlng.lat +"&long="+ e.latlng.lng +"&map=<?php echo $_GET['map']; ?>
 
     });
 
