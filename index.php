@@ -103,13 +103,13 @@
     info.showNewForm = function (props) {
       console.log(props);
       this._div.innerHTML += '\
-        <form>\
-          <div class="row">\
-            <div class="small-12 columns">\
-              <input type="text" placeholder="Name">\
-              <input id="newMarkerSubmit" class="button" type="submit" value="Submit">\
-            </div>\
-          </div>\
+      <form>\
+        <fieldset>\
+          <span class="help-block">Add a new marker:</span>\
+          <input type="text" placeholder="Marker Name">\
+          <br>\
+          <button type="submit" class="btn">Submit</button>\
+        </fieldset>\
         </form>';
       this._div.innerHTML += "<p>Adding point at "+ props.latlng +"</p>";
     };
@@ -120,6 +120,12 @@
     });
 
     info.addTo(map);
+
+    /* add new marker */
+
+    $.ajax({
+
+    });
 
     /* display markers */
 
@@ -166,7 +172,7 @@
       }
 
       map.on('click', onMapClick);
-      
+
     });
 
   </script>
