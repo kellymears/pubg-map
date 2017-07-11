@@ -80,6 +80,8 @@ class map {
  function display_pois() {
    $sql = "SELECT * FROM `map_pois` WHERE `mapname`='".$this->map."'";
    $result = $this->db->call_query($sql, "Display POI query successful");
+
+   $result_array = array();
    while ($row = $result->fetch_assoc()) {
      $result_array[$row['id']]['id'] = $row['id'];
      $result_array[$row['id']]['name'] = $row['name'];
