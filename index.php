@@ -7,7 +7,8 @@
   <title>Mapster</title>
   <link rel="icon" type="image/png" href="images/pubg.png"/>
 
-  <link rel="stylesheet" href="dist/foundation/css/foundation.css">
+  <!-- Bootstrap -->
+  <link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
   <link rel="stylesheet" href="dist/foundation/icons/foundation-icons.css">
   <link rel="stylesheet" href="dist/leaflet/leaflet.css"/>
   <link rel="stylesheet" href="app.css" />
@@ -16,27 +17,33 @@
 
 <body>
 
-  <ul class="vertical medium-horizontal menu" style="background:black;">
-  <li>
-  <li><h5 style="position:relative;top:.2em; padding-left:.5em; color:white;">
-    <i class="fi-map"></i> Mapster</h5>
-  </li>
-  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>One</span></a></li>
-  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Two</span></a></li>
-  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Three</span></a></li>
-  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Four</span></a></li>
-  </ul>
+  <div class="navbar" style="margin-bottom:0em;">
+  <div class="navbar-inner">
+    <a class="brand" href="#">Mapster</a>
+    <ul class="nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Link</a></li>
+      <li><a href="#">Link</a></li>
+    </ul>
+  </div>
+</div>
+
 
   <div id="map"></div>
 
+  <script src="dist/bootstrap/js/bootstrap.js"></script>
   <script src="dist/foundation/js/vendor/jquery.js"></script>
   <script src="dist/foundation/js/vendor/what-input.js"></script>
-  <script src="dist/foundation/js/vendor/foundation.js"></script>
   <script src="dist/leaflet/leaflet.js"></script>
 
   <script>
 
   $( document ).ready(function() {
+
+    var whichMap = "<?php if(isset($_GET['map'])) { echo $_GET['map']; } ?>";
+    if (!whichMap) {
+      whichMap = "default";
+    }
 
     var map = L.map('map', {
       minZoom: 1,
@@ -69,14 +76,10 @@
 
     info.onAdd = function (map) {
         this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        L.DomEvent.disableClickPropagation(this._div);
         this.update();
         return this._div;
     };
-
-    var whichMap = "<?php if(isset($_GET['map'])) { echo $_GET['map']; } ?>";
-    if (!whichMap) {
-      whichMap = "default";
-    }
 
     info.update = function (props) {
         this._div.innerHTML = '<h4>Player Unknown\'s Battlegrounds</h4> \
@@ -88,8 +91,22 @@
 
     info.showNewForm = function (props) {
       console.log(props);
+      this._div.innerHTML += '\
+        <form>\
+          <div class="row">\
+            <div class="small-12 columns">\
+              <input type="text" placeholder="Name">\
+              <input id="newMarkerSubmit" class="button" type="submit" value="Submit">\
+            </div>\
+          </div>\
+        </form>';
       this._div.innerHTML += "<p>Adding point at "+ props.latlng +"</p>";
     };
+
+    $( "#newMarkerSubmit" ).submit(function( event ) {
+      console.log( "Handler for .submit() called." );
+      event.preventDefault();
+    });
 
     info.addTo(map);
 
