@@ -7,7 +7,11 @@
 
     if($_POST['request']=="create") {
       $result = $squad_pubg->create_poi($_POST['name'],$_POST['type'],$_POST['lat'],$_POST['long'],$_POST['map']);
-      echo $result;
+      if($result) {
+
+      } else {
+        echo $result;
+      }
     }
 
     /* if($_POST['request']=="update") {

@@ -38,11 +38,11 @@
   <!-- map -->
   <div id="map"></div>
 
-  <!-- bootstrap js -->
-  <script src="dist/bootstrap/js/bootstrap.js"></script>
-
   <!-- jquery -->
   <script src="dist/foundation/js/vendor/jquery.js"></script>
+
+  <!-- bootstrap js -->
+  <script src="dist/bootstrap/js/bootstrap.js"></script>
 
   <!-- leaflet js -->
   <script src="dist/leaflet/leaflet.js"></script>
@@ -101,31 +101,67 @@
     };
 
     info.showNewForm = function (props) {
-      console.log(props);
+
       this._div.innerHTML += '\
-      <form>\
+      <form id="newMarkerForm">\
         <fieldset>\
           <span class="help-block">Add a new marker:</span>\
-          <input type="text" placeholder="Marker Name">\
+          <input id="markerCount" type="hidden"></input>\
+          <input id="markerLat" type="hidden"></input>\
+          <input id="markerLong" type="hidden"></input>\
+          <input id="markerName" type="text" placeholder="Marker Name">\
           <br>\
-          <button type="submit" class="btn">Submit</button>\
+          <button id="newMarkerSubmit" type="submit" class="btn">Submit</button>\
         </fieldset>\
         </form>';
+
       this._div.innerHTML += "<p>Adding point at "+ props.latlng +"</p>";
+
+      $('#markerLat').val(props.latlng.lat);
+      $('#markerLong').val(props.latlng.lng);
+
+      /* add new marker */
+      $( "#newMarkerForm" ).submit(function( event ) {
+
+        event.preventDefault();
+
+        /* prepare our data */
+        markerName = $("#markerName").val();
+        markerLat = $("#markerLat").val();
+        markerLng = $("#markerLong").val();
+        markerType = 0;
+
+        /* submit our data */
+        $.ajax({
+          method: "POST",
+          url: "requests.php",
+          data: { request: "create",
+                  name: markerName,
+                  type: markerType,
+                  lat: markerLat,
+                  long: markerLng,
+                  map: whichMap, }
+        })
+
+        /* show the user what we've done */
+        .done(function( data ) {
+
+          markerCount = $("#markerCount").val();
+          markerName = $("#markerName").val();
+          markerLat = $("#markerLat").val();
+          markerLng = $("#markerLong").val();
+          markerType = 0;
+          document["marker_temporary_" + markerCount] =
+            L.marker([markerLat,
+                      markerLng]).addTo(map);
+          document["marker_temporary_" + markerCount].bindPopup('<b>' + markerName + '</b>').openPopup();
+        });
+
+      });
+
     };
 
-    $( "#newMarkerSubmit" ).submit(function( event ) {
-      console.log( "Handler for .submit() called." );
-      event.preventDefault();
-    });
-
     info.addTo(map);
-
-    /* add new marker */
-
-    $.ajax({
-
-    });
 
     /* display markers */
 
@@ -137,7 +173,7 @@
       .done(function( data ) {
         if (data) {
           var json_data = JSON.parse(data);
-          $.each(json_data, function(key,value) {
+          jQuery.each(json_data, function(key,value) {
             document["marker" + value.id] =
               L.marker([parseFloat(value.lat),
                         parseFloat(value.long)]).addTo(map);
@@ -161,14 +197,9 @@
          // Assign the javascript obj to another variable to not get overriden
          var mapClickObj = e;
 
-         $('#addNew').click(function(e){
+         jQuery('#addNew').click(function(e){
            info.showNewForm(mapClickObj);
          });
-      }
-
-      function onMapAdd(coord) {
-        console.log(coord);
-        info.showNewForm(coord);
       }
 
       map.on('click', onMapClick);
