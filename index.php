@@ -1,17 +1,35 @@
 <html>
 <head>
 
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapster</title>
+
+  <link rel="stylesheet" href="dist/foundation/css/foundation.css">
+  <link rel="stylesheet" href="dist/foundation/icons/foundation-icons.css">
   <link rel="stylesheet" href="dist/leaflet/leaflet.css"/>
   <link rel="stylesheet" href="app.css" />
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="dist/leaflet/leaflet.js"></script>
 
 </head>
 
 <body>
 
+  <ul class="vertical medium-horizontal menu" style="background:black;">
+  <li>
+  <li><h5 style="position:relative;top:.2em; padding-left:.5em; color:white;"><i class="fi-map"></i> Mapster</h5></li>
+  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>One</span></a></li>
+  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Two</span></a></li>
+  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Three</span></a></li>
+  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Four</span></a></li>
+  </ul>
+
   <div id="map"></div>
+
+  <script src="dist/foundation/js/vendor/jquery.js"></script>
+  <script src="dist/foundation/js/vendor/what-input.js"></script>
+  <script src="dist/foundation/js/vendor/foundation.js"></script>
+  <script src="dist/leaflet/leaflet.js"></script>
 
   <script>
 
