@@ -7,8 +7,17 @@
   <title>Mapster</title>
   <link rel="icon" type="image/png" href="images/pubg.png"/>
 
+  <!-- jQuery -->
+  <script type="text/javascript" src="dist/jquery-3.2.1.min.js"> </script>
+
   <!-- Bootstrap -->
   <link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+  <!-- Bootstrap select plugin -->
+  <script type="text/javascript"
+          src="dist/bootstrap-select-1.12.3/js/bootstrap-select.min.js">
+  </script>
+
 
   <!-- Foundation Icons -->
   <link rel="stylesheet" href="dist/foundation/icons/foundation-icons.css">
