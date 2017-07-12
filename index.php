@@ -173,7 +173,7 @@
       .done(function( data ) {
         if (data) {
           var json_data = JSON.parse(data);
-          jQuery.each(json_data, function(key,value) {
+          $.each(json_data, function(key,value) {
             document["marker" + value.id] =
               L.marker([parseFloat(value.lat),
                         parseFloat(value.long)]).addTo(map);
@@ -197,7 +197,7 @@
          // Assign the javascript obj to another variable to not get overriden
          var mapClickObj = e;
 
-         jQuery('#addNew').click(function(e){
+         $('#addNew').click(function(e){
            info.showNewForm(mapClickObj);
          });
       }
