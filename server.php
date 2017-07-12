@@ -1,6 +1,7 @@
 <?php
 
 require "config.php";
+error_reporting(1);
 
 class map_db {
 

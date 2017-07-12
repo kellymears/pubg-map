@@ -95,9 +95,6 @@
     info.update = function (props) {
         this._div.innerHTML = '<h4>Player Unknown\'s Battlegrounds</h4> \
                                 <b>Viewing map:</b> ' + whichMap;
-        if(props) {
-          this._div.innerHTML += "<p>Map clicked at "+ props.latlng +"</p>";
-        }
     };
 
     info.showNewForm = function (props) {
@@ -114,8 +111,6 @@
           <button id="newMarkerSubmit" type="submit" class="btn">Submit</button>\
         </fieldset>\
         </form>';
-
-      this._div.innerHTML += "<p>Adding point at "+ props.latlng +"</p>";
 
       $('#markerLat').val(props.latlng.lat);
       $('#markerLong').val(props.latlng.lng);

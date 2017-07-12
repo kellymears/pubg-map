@@ -6,12 +6,13 @@
   if($_POST['map']) {
 
     if($_POST['request']=="create") {
-      $result = $squad_pubg->create_poi($_POST['name'],$_POST['type'],$_POST['lat'],$_POST['long'],$_POST['map']);
-      if($result) {
-
-      } else {
-        echo $result;
-      }
+      if($_POST['name'] &&
+         $_POST['type'] &&
+         $_POST['lat']  &&
+         $_POST['long'] &&
+         $_POST['map']) {
+           $result = $squad_pubg->create_poi($_POST['name'],$_POST['type'],$_POST['lat'],$_POST['long'],$_POST['map']);
+         }
     }
 
     /* if($_POST['request']=="update") {
