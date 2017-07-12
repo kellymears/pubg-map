@@ -7,36 +7,54 @@
   <title>Mapster</title>
   <link rel="icon" type="image/png" href="images/pubg.png"/>
 
-  <link rel="stylesheet" href="dist/foundation/css/foundation.css">
+  <!-- Bootstrap -->
+  <link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+  <!-- Foundation Icons -->
   <link rel="stylesheet" href="dist/foundation/icons/foundation-icons.css">
+
+  <!-- Leaflet -->
   <link rel="stylesheet" href="dist/leaflet/leaflet.css"/>
+
+  <!-- Our stylesheet -->
   <link rel="stylesheet" href="app.css" />
 
 </head>
 
 <body>
 
-  <ul class="vertical medium-horizontal menu" style="background:black;">
-  <li>
-  <li><h5 style="position:relative;top:.2em; padding-left:.5em; color:white;">
-    <i class="fi-map"></i> Mapster</h5>
-  </li>
-  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>One</span></a></li>
-  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Two</span></a></li>
-  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Three</span></a></li>
-  <li><a href="#0" style="color:white;"><i class="fi-list"></i> <span>Four</span></a></li>
-  </ul>
+  <!-- top bar -->
+  <div class="navbar" style="margin-bottom:0em;">
+  <div class="navbar-inner">
+    <a class="brand" href="#">Mapster</a>
+    <ul class="nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Link</a></li>
+      <li><a href="#">Link</a></li>
+    </ul>
+  </div>
+</div>
 
+  <!-- map -->
   <div id="map"></div>
 
+  <!-- jquery -->
   <script src="dist/foundation/js/vendor/jquery.js"></script>
-  <script src="dist/foundation/js/vendor/what-input.js"></script>
-  <script src="dist/foundation/js/vendor/foundation.js"></script>
+
+  <!-- bootstrap js -->
+  <script src="dist/bootstrap/js/bootstrap.js"></script>
+
+  <!-- leaflet js -->
   <script src="dist/leaflet/leaflet.js"></script>
 
   <script>
 
   $( document ).ready(function() {
+
+    var whichMap = "<?php if(isset($_GET['map'])) { echo $_GET['map']; } ?>";
+    if (!whichMap) {
+      whichMap = "default";
+    }
 
     var map = L.map('map', {
       minZoom: 1,
@@ -69,26 +87,73 @@
 
     info.onAdd = function (map) {
         this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        L.DomEvent.disableClickPropagation(this._div);
         this.update();
         return this._div;
     };
 
-    var whichMap = "<?php if(isset($_GET['map'])) { echo $_GET['map']; } ?>";
-    if (!whichMap) {
-      whichMap = "default";
-    }
-
     info.update = function (props) {
         this._div.innerHTML = '<h4>Player Unknown\'s Battlegrounds</h4> \
                                 <b>Viewing map:</b> ' + whichMap;
-        if(props) {
-          this._div.innerHTML += "<p>Map clicked at "+ props.latlng +"</p>";
-        }
     };
 
     info.showNewForm = function (props) {
-      console.log(props);
-      this._div.innerHTML += "<p>Adding point at "+ props.latlng +"</p>";
+
+      this._div.innerHTML += '\
+      <form id="newMarkerForm">\
+        <fieldset>\
+          <span class="help-block">Add a new marker:</span>\
+          <input id="markerCount" type="hidden"></input>\
+          <input id="markerLat" type="hidden"></input>\
+          <input id="markerLong" type="hidden"></input>\
+          <input id="markerName" type="text" placeholder="Marker Name">\
+          <br>\
+          <button id="newMarkerSubmit" type="submit" class="btn">Submit</button>\
+        </fieldset>\
+        </form>';
+
+      $('#markerLat').val(props.latlng.lat);
+      $('#markerLong').val(props.latlng.lng);
+
+      /* add new marker */
+      $( "#newMarkerForm" ).submit(function( event ) {
+
+        event.preventDefault();
+
+        /* prepare our data */
+        markerName = $("#markerName").val();
+        markerLat = $("#markerLat").val();
+        markerLng = $("#markerLong").val();
+        markerType = 0;
+
+        /* submit our data */
+        $.ajax({
+          method: "POST",
+          url: "requests.php",
+          data: { request: "create",
+                  name: markerName,
+                  type: markerType,
+                  lat: markerLat,
+                  long: markerLng,
+                  map: whichMap, }
+        })
+
+        /* show the user what we've done */
+        .done(function( data ) {
+
+          markerCount = $("#markerCount").val();
+          markerName = $("#markerName").val();
+          markerLat = $("#markerLat").val();
+          markerLng = $("#markerLong").val();
+          markerType = 0;
+          document["marker_temporary_" + markerCount] =
+            L.marker([markerLat,
+                      markerLng]).addTo(map);
+          document["marker_temporary_" + markerCount].bindPopup('<b>' + markerName + '</b>').openPopup();
+        });
+
+      });
+
     };
 
     info.addTo(map);
@@ -103,7 +168,7 @@
       .done(function( data ) {
         if (data) {
           var json_data = JSON.parse(data);
-          $.each(json_data, function(key,value) {
+          jQuery.each(json_data, function(key,value) {
             document["marker" + value.id] =
               L.marker([parseFloat(value.lat),
                         parseFloat(value.long)]).addTo(map);
@@ -127,19 +192,12 @@
          // Assign the javascript obj to another variable to not get overriden
          var mapClickObj = e;
 
-         $('#addNew').click(function(e){
+         jQuery('#addNew').click(function(e){
            info.showNewForm(mapClickObj);
          });
       }
 
-      function onMapAdd(coord) {
-        console.log(coord);
-        info.showNewForm(coord);
-      }
-
       map.on('click', onMapClick);
-
-      // requests.php?request=create&name=Test&type=1&lat="+ e.latlng.lat +"&long="+ e.latlng.lng +"&map=
 
     });
 
