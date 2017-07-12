@@ -6,11 +6,7 @@
   if($_POST['map']) {
 
     if($_POST['request']=="create") {
-      if($_POST['name'] &&
-         $_POST['type'] &&
-         $_POST['lat']  &&
-         $_POST['long'] &&
-         $_POST['map']) {
+      if($_POST['name']) {
            $result = $squad_pubg->create_poi($_POST['name'],$_POST['type'],$_POST['lat'],$_POST['long'],$_POST['map']);
          }
     }

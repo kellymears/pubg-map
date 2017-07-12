@@ -7,17 +7,8 @@
   <title>Mapster</title>
   <link rel="icon" type="image/png" href="images/pubg.png"/>
 
-  <!-- jQuery -->
-  <script type="text/javascript" src="dist/jquery-3.2.1.min.js"> </script>
-
   <!-- Bootstrap -->
   <link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-
-  <!-- Bootstrap select plugin -->
-  <script type="text/javascript"
-          src="dist/bootstrap-select-1.12.3/js/bootstrap-select.min.js">
-  </script>
-
 
   <!-- Foundation Icons -->
   <link rel="stylesheet" href="dist/foundation/icons/foundation-icons.css">
@@ -47,11 +38,16 @@
   <!-- map -->
   <div id="map"></div>
 
-  <!-- jquery -->
-  <script src="dist/foundation/js/vendor/jquery.js"></script>
+  <!-- jQuery -->
+  <script src="dist/jquery-3.2.1.min.js"> </script>
 
   <!-- bootstrap js -->
   <script src="dist/bootstrap/js/bootstrap.js"></script>
+
+  <!-- Bootstrap select plugin -->
+  <script type="text/javascript"
+          src="dist/bootstrap-select-1.12.3/js/bootstrap-select.min.js">
+  </script>
 
   <!-- leaflet js -->
   <script src="dist/leaflet/leaflet.js"></script>
@@ -177,7 +173,7 @@
       .done(function( data ) {
         if (data) {
           var json_data = JSON.parse(data);
-          jQuery.each(json_data, function(key,value) {
+          $.each(json_data, function(key,value) {
             document["marker" + value.id] =
               L.marker([parseFloat(value.lat),
                         parseFloat(value.long)]).addTo(map);
@@ -201,7 +197,7 @@
          // Assign the javascript obj to another variable to not get overriden
          var mapClickObj = e;
 
-         jQuery('#addNew').click(function(e){
+         $('#addNew').click(function(e){
            info.showNewForm(mapClickObj);
          });
       }
