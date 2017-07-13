@@ -7,8 +7,11 @@
   <title>Mapster</title>
   <link rel="icon" type="image/png" href="images/pubg.png"/>
 
-  <!-- Bootstrap -->
-  <link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
   <!-- Foundation Icons -->
   <link rel="stylesheet" href="dist/foundation/icons/foundation-icons.css">
@@ -23,31 +26,82 @@
 
 <body>
 
-  <!-- top bar -->
-  <div class="navbar" style="margin-bottom:0em;">
-    <div class="navbar-inner">
-      <a class="brand" href="#">Mapster</a>
-      <ul class="nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-      </ul>
-    </div>
-  </div>
+  <div class="container-fluid">
 
-  <!-- map -->
-  <div id="map"></div>
+    <!-- top bar -->
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Mapmeister</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">PUBG <span class="sr-only">(current)</span></a></li>
+            <!--<li><a href="#">Link</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>-->
+          </ul>
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <!-- <li><a href="#">Link</a></li> -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="https://github.com/kellymears/pubg">Github</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- map -->
+    <div id="map"></div>
+
+    <!-- Bottom Nav Area
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="btn btn-default navbar-btn">Sign in</button>
+          <a class="navbar-brand" href="#">Mapmeister</a>
+        </div>
+      </div>
+    </nav> -->
+
+  </div>
 
   <!-- jQuery -->
   <script src="dist/jquery-3.2.1.min.js"> </script>
 
-  <!-- bootstrap js -->
-  <script src="dist/bootstrap/js/bootstrap.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
   <!-- Bootstrap select plugin -->
-  <script type="text/javascript"
-          src="dist/bootstrap-select-1.12.3/js/bootstrap-select.min.js">
-  </script>
+  <script type="text/javascript" src="dist/bootstrap-select-1.12.3/js/bootstrap-select.min.js"></script>
 
   <!-- leaflet js -->
   <script src="dist/leaflet/leaflet.js"></script>
@@ -91,31 +145,43 @@
     var info = L.control();
 
     info.onAdd = function (map) {
-        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-        L.DomEvent.disableClickPropagation(this._div);
-        this.update();
-        return this._div;
+      this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+      L.DomEvent.disableClickPropagation(this._div);
+      this.update();
+      return this._div;
     };
 
     info.update = function (props) {
-        this._div.innerHTML = '<h4>PlayerUnknown\'s Battlegrounds</h4> \
-                                <b>Viewing map:</b> ' + whichMap;
+      this._div.innerHTML = '<div class="panel panel-primary">\
+                              <div class="panel-heading">\
+                                Viewing map: ' + whichMap +'\
+                              </div>\
+                              <div class="panel-body">\
+                                Viewing game: PlayerUnknown\'s Battlegrounds\
+                             </div>\
+                            </div>';
     };
 
     info.showNewForm = function (props) {
 
       this._div.innerHTML += '\
-      <form id="newMarkerForm">\
-        <fieldset>\
-          <span class="help-block">Add a new marker:</span>\
-          <input id="markerCount" type="hidden"></input>\
-          <input id="markerLat" type="hidden"></input>\
-          <input id="markerLong" type="hidden"></input>\
-          <input id="markerName" type="text" placeholder="Marker Name">\
-          <br>\
-          <button id="newMarkerSubmit" type="submit" class="btn">Submit</button>\
-        </fieldset>\
-        </form>';
+      <div class="panel panel-info">\
+        <div class="panel-heading">\
+          Create New Marker\
+        </div>\
+        <div class="panel-body">\
+          <div id="newMarkerFormError" class="alert alert-warning" style="display:none;"><strong>Oops!</strong> There was a problem with your submission.</div>\
+          <form id="newMarkerForm">\
+              <input id="markerCount" type="hidden"></input>\
+              <input id="markerLat" type="hidden"></input>\
+              <input id="markerLong" type="hidden"></input>\
+              <div class="input-group">\
+                <input id="markerName" type="text" class="form-control" placeholder="Marker Name">\
+              </div>\
+              <button id="newMarkerSubmit" type="submit" class="btn btn-success">Submit</button>\
+          </form>\
+        </div>\
+      </div>';
 
       $('#markerLat').val(props.latlng.lat);
       $('#markerLong').val(props.latlng.lng);
@@ -131,31 +197,121 @@
         markerLng = $("#markerLong").val();
         markerType = 0;
 
-        /* submit our data */
-        $.ajax({
-          method: "POST",
-          url: "requests.php",
-          data: { request: "create",
-                  name: markerName,
-                  type: markerType,
-                  lat: markerLat,
-                  long: markerLng,
-                  map: whichMap, }
-        })
+        if(markerName&&
+           markerLat&&
+           markerLng) {
 
-        /* show the user what we've done */
-        .done(function( data ) {
+             /* submit our data */
+             $.ajax({
+               method: "POST",
+               url: "requests.php",
+               data: { request: "create",
+                       name: markerName,
+                       type: markerType,
+                       lat: markerLat,
+                       long: markerLng,
+                       map: whichMap, }
+             })
 
-          markerCount = $("#markerCount").val();
-          markerName = $("#markerName").val();
-          markerLat = $("#markerLat").val();
-          markerLng = $("#markerLong").val();
-          markerType = 0;
-          document["marker_temporary_" + markerCount] =
-            L.marker([markerLat,
-                      markerLng]).addTo(map);
-          document["marker_temporary_" + markerCount].bindPopup('<b>' + markerName + '</b>').openPopup();
-        });
+             /* show the user what we've done */
+             .done(function( data ) {
+
+               markerCount = $("#markerCount").val();
+               markerCount++;
+
+               markerName = $("#markerName").val();
+               markerLat = $("#markerLat").val();
+               markerLng = $("#markerLong").val();
+
+               document["marker_temporary_" + markerCount] =
+                 L.marker([markerLat,
+                           markerLng]).addTo(map);
+
+               /* create popup */
+               var popupContent = '<b>' + markerName + '</b>';
+               document["marker_temporary_" + markerCount].bindPopup(popupContent).openPopup();
+               $('.panel-info').fadeOut(800);
+             });
+
+           } else {
+             /* if form validation failed throw an error */
+             $('#newMarkerFormError').fadeIn(400);
+           }
+
+      });
+
+    };
+
+    info.showOnClick = function (props) {
+
+      this._div.innerHTML += '\
+      <div class="panel panel-info">\
+        <div class="panel-heading">\
+          Create New Marker\
+        </div>\
+        <div class="panel-body">\
+          <div id="newMarkerFormError" class="alert alert-warning" style="display:none;"><strong>Oops!</strong> There was a problem with your submission.</div>\
+          <form id="newMarkerForm">\
+              <input id="markerCount" type="hidden"></input>\
+              <input id="markerLat" type="hidden"></input>\
+              <input id="markerLong" type="hidden"></input>\
+              <div class="input-group">\
+                <input id="markerName" type="text" class="form-control" placeholder="Marker Name">\
+              </div>\
+              <button id="newMarkerSubmit" type="submit" class="btn btn-success">Submit</button>\
+          </form>\
+        </div>\
+      </div>';
+
+      $('#markerLat').val(props.latlng.lat);
+      $('#markerLong').val(props.latlng.lng);
+
+      /* add new marker */
+      $( "#newMarkerForm" ).submit(function( event ) {
+
+        event.preventDefault();
+
+        /* prepare our data */
+        markerName = $("#markerName").val();
+        markerLat = $("#markerLat").val();
+        markerLng = $("#markerLong").val();
+        markerType = 0;
+
+        if(markerName&&
+           markerLat&&
+           markerLng) {
+
+             /* submit our data */
+             $.ajax({
+               method: "POST",
+               url: "requests.php",
+               data: { request: "create",
+                       name: markerName,
+                       type: markerType,
+                       lat: markerLat,
+                       long: markerLng,
+                       map: whichMap, }
+             })
+
+             /* show the user what we've done */
+             .done(function( data ) {
+
+               markerCount = $("#markerCount").val();
+               markerCount++;
+               markerName = $("#markerName").val();
+               markerLat = $("#markerLat").val();
+               markerLng = $("#markerLong").val();
+               markerType = 0;
+               document["marker_temporary_" + markerCount] =
+                 L.marker([markerLat,
+                           markerLng]).addTo(map);
+               document["marker_temporary_" + markerCount].bindPopup('<b>' + markerName + '</b>').openPopup();
+               $('.panel-info').fadeOut(800);
+             });
+
+           } else {
+             $('#newMarkerFormError').fadeIn(400);
+           }
 
       });
 
@@ -189,7 +345,7 @@
       function onMapClick(e) {
           popup
               .setLatLng(e.latlng)
-              .setContent("<a id='addNew' href='#'>Add Marker</a>")
+              .setContent("<a id='createMarker' href='#'>Add Marker</a>")
               .openOn(map);
          info.update(e);
          console.log('map clicked');
@@ -197,7 +353,7 @@
          // Assign the javascript obj to another variable to not get overriden
          var mapClickObj = e;
 
-         $('#addNew').click(function(e){
+         $('#createMarker').click(function(e){
            info.showNewForm(mapClickObj);
          });
       }
