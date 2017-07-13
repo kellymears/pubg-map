@@ -218,18 +218,23 @@
 
                markerCount = $("#markerCount").val();
                markerCount++;
+
                markerName = $("#markerName").val();
                markerLat = $("#markerLat").val();
                markerLng = $("#markerLong").val();
-               markerType = 0;
+
                document["marker_temporary_" + markerCount] =
                  L.marker([markerLat,
                            markerLng]).addTo(map);
-               document["marker_temporary_" + markerCount].bindPopup('<b>' + markerName + '</b>').openPopup();
+
+               /* create popup */
+               var popupContent = '<b>' + markerName + '</b>';
+               document["marker_temporary_" + markerCount].bindPopup(popupContent).openPopup();
                $('.panel-info').fadeOut(800);
              });
 
            } else {
+             /* if form validation failed throw an error */
              $('#newMarkerFormError').fadeIn(400);
            }
 
@@ -328,7 +333,7 @@
             document["marker" + value.id] =
               L.marker([parseFloat(value.lat),
                         parseFloat(value.long)]).addTo(map);
-            document["marker" + value.id].bindPopup('<b>' + value.name + '</b><br>').openPopup();
+            document["marker" + value.id].bindPopup('<b>' + value.name + '</b>').openPopup();
           });
         }
       });
@@ -340,7 +345,7 @@
       function onMapClick(e) {
           popup
               .setLatLng(e.latlng)
-              .setContent("<a id='addNew' href='#'>Add Marker</a>")
+              .setContent("<a id='createMarker' href='#'>Add Marker</a>")
               .openOn(map);
          info.update(e);
          console.log('map clicked');
@@ -348,7 +353,7 @@
          // Assign the javascript obj to another variable to not get overriden
          var mapClickObj = e;
 
-         $('#addNew').click(function(e){
+         $('#createMarker').click(function(e){
            info.showNewForm(mapClickObj);
          });
       }
