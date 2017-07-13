@@ -7,8 +7,11 @@
   <title>Mapster</title>
   <link rel="icon" type="image/png" href="images/pubg.png"/>
 
-  <!-- Bootstrap -->
-  <link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
   <!-- Foundation Icons -->
   <link rel="stylesheet" href="dist/foundation/icons/foundation-icons.css">
@@ -23,26 +26,73 @@
 
 <body>
 
-  <!-- top bar -->
-  <div class="navbar" style="margin-bottom:0em;">
-    <div class="navbar-inner">
-      <a class="brand" href="#">Mapster</a>
-      <ul class="nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-      </ul>
-    </div>
-  </div>
+  <div class="container-fluid">
 
-  <!-- map -->
-  <div id="map"></div>
+    <!-- top bar -->
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Mapmeister</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">PUBG <span class="sr-only">(current)</span></a></li>
+            <!--<li><a href="#">Link</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>-->
+          </ul>
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <!-- <li><a href="#">Link</a></li> -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- map -->
+    <div id="map"></div>
+
+  </div>
 
   <!-- jQuery -->
   <script src="dist/jquery-3.2.1.min.js"> </script>
 
-  <!-- bootstrap js -->
-  <script src="dist/bootstrap/js/bootstrap.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
   <!-- Bootstrap select plugin -->
   <script type="text/javascript"
@@ -91,31 +141,41 @@
     var info = L.control();
 
     info.onAdd = function (map) {
-        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-        L.DomEvent.disableClickPropagation(this._div);
-        this.update();
-        return this._div;
+      this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+      L.DomEvent.disableClickPropagation(this._div);
+      this.update();
+      return this._div;
     };
 
     info.update = function (props) {
-        this._div.innerHTML = '<h4>PlayerUnknown\'s Battlegrounds</h4> \
-                                <b>Viewing map:</b> ' + whichMap;
+      this._div.innerHTML = '<div class="panel panel-primary">\
+                              <div class="panel-heading">\
+                                Viewing map: ' + whichMap +'\
+                              </div>\
+                              <div class="panel-body">\
+                                Viewing game: PlayerUnknown\'s Battlegrounds\
+                             </div>\
+                            </div>';
     };
 
     info.showNewForm = function (props) {
 
       this._div.innerHTML += '\
-      <form id="newMarkerForm">\
-        <fieldset>\
-          <span class="help-block">Add a new marker:</span>\
-          <input id="markerCount" type="hidden"></input>\
-          <input id="markerLat" type="hidden"></input>\
-          <input id="markerLong" type="hidden"></input>\
-          <input id="markerName" type="text" placeholder="Marker Name">\
-          <br>\
-          <button id="newMarkerSubmit" type="submit" class="btn">Submit</button>\
-        </fieldset>\
-        </form>';
+      <div class="panel panel-default">\
+        <div class="panel-body">\
+          <form id="newMarkerForm">\
+            <fieldset>\
+              <span class="help-block">Add a new marker:</span>\
+              <input id="markerCount" type="hidden"></input>\
+              <input id="markerLat" type="hidden"></input>\
+              <input id="markerLong" type="hidden"></input>\
+              <input id="markerName" type="text" placeholder="Marker Name">\
+              <br>\
+              <button id="newMarkerSubmit" type="submit" class="btn">Submit</button>\
+            </fieldset>\
+          </form>\
+        </div>\
+      </div>';
 
       $('#markerLat').val(props.latlng.lat);
       $('#markerLong').val(props.latlng.lng);
@@ -177,7 +237,7 @@
             document["marker" + value.id] =
               L.marker([parseFloat(value.lat),
                         parseFloat(value.long)]).addTo(map);
-            document["marker" + value.id].bindPopup('<b>' + value.name + '</b>').openPopup();
+            document["marker" + value.id].bindPopup('<b>' + value.name + '</b><br>').openPopup();
           });
         }
       });
