@@ -25,15 +25,15 @@
 
   <!-- top bar -->
   <div class="navbar" style="margin-bottom:0em;">
-  <div class="navbar-inner">
-    <a class="brand" href="#">Mapster</a>
-    <ul class="nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-    </ul>
+    <div class="navbar-inner">
+      <a class="brand" href="#">Mapster</a>
+      <ul class="nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>
+      </ul>
+    </div>
   </div>
-</div>
 
   <!-- map -->
   <div id="map"></div>
@@ -72,7 +72,7 @@
     // dimensions of the image
     var w = 5184,
         h = 5184,
-        url = 'images/map-base.jpg';
+        url = 'http://spacehead.org/images/map-base.jpg';
 
     // calculate the edges of the image, in coordinate space
     var southWest = map.unproject([0, h], map.getMaxZoom()-1);
@@ -98,7 +98,7 @@
     };
 
     info.update = function (props) {
-        this._div.innerHTML = '<h4>Player Unknown\'s Battlegrounds</h4> \
+        this._div.innerHTML = '<h4>PlayerUnknown\'s Battlegrounds</h4> \
                                 <b>Viewing map:</b> ' + whichMap;
     };
 
