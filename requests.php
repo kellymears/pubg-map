@@ -1,6 +1,7 @@
 <?php
 
   require "server.php";
+  
   $squad_pubg = new map($db_servername,$db_username,$db_password,$db_name,$_POST["map"]);
 
   if($_POST['map']) {
